@@ -1,5 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable jsx-a11y/alt-text */
 import Link from "next/link";
 import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
@@ -43,7 +41,7 @@ export const Navbar = () => {
             <Link href="/about">About</Link>
           </li>
           <li className="cursor-pointer hover:border-b-2">
-            <Link href="/contact">Statics</Link>
+            <Link href="/statics">Statics</Link>
           </li>
         </ul>
 

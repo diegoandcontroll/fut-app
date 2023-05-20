@@ -1,3 +1,4 @@
+import { FormApiKey } from "@/components/form-apikey";
 import { Roboto } from "next/font/google";
 import Head from "next/head";
 import Image from "next/image";
@@ -25,14 +26,20 @@ export default function Home() {
           className="mix-blend-color-burn brightness-200"
         />
       </div>
-      <div className=" text-center text-white font-extrabold absolute lg:top-28 lg:pt-16 lg:left-40 lg:pl-20 pt-36">
-        <h1 className="text-6xl text-center lg:text-8xl text-green-300 font-semibold md:inline sm:block">
-        Striker
-        </h1>
-        <span className="text-3xl text-green-200 font-extralight ">
-        Metrics
-        </span>
-        <h3 className="pt-8 pl-6 lg:pt-20 text-6xl text-center">Welcome</h3>
+      <div className="lg:text-center text-white font-extrabold absolute top-60 pl-20">
+        <div>
+          <h1 className="text-6xl lg:text-8xl text-green-300 font-semibold md:inline sm:block">
+          Striker
+          </h1>
+          <span className="text-3xl text-green-200 font-extralight ">
+          Metrics
+          </span>
+        </div>
+        <h3 className="pt-8 text-6xl lg:mr-20 pb-10">Bem Vindo!</h3>
+
+        <div>
+          <FormApiKey />
+        </div>
       </div>
     </>
   );
