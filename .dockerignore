@@ -1,0 +1,21 @@
+# Ignore development-related files and directories
+node_modules
+.next
+out
+
+# Ignore source control files
+.git
+.gitignore
+
+# Ignore Next.js build artifacts
+.DS_Store
+build
+cache
+.next
+
+# Ignore editor-specific files and directories
+.vscode
+.idea
+*.sublime-*
+*.swp
+*.swo
