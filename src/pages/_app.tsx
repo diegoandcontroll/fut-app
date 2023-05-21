@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
     <AppProvider>
-     <main className={`w-full h-screen bg-gradient-to-tl from-indigo-900 to-slate-950 ${poppins.variable} font-sans`}>
+     <main className={`w-full h-screen bg-gradient-to-tl from-green-800 to-purple-800 to-slate-950 ${poppins.variable} font-sans`}>
       <Navbar />
        <Component {...pageProps} />
      </main>
