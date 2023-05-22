@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import Carousel from "@/components/carousel";
 import { AppActions, useAppContext } from "@/context/Appcontext";
 import { Button, Input } from "@material-tailwind/react";
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 
@@ -56,13 +56,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="lg:w-full lg:h-screen bg-gradient-to-tl from-pink-100 to-purple-100 to-slate-950">
-        <Image
-          alt=""
-          src="/imagelayout.jpg"
-          fill
-          style={{ objectFit: "cover" }}
-          className="mix-blend-difference brightness-100 lg:h-screen"
-        />
+        <Carousel />
       </div>
       <div className="lg:text-center text-white font-extrabold absolute top-60 pl-20">
         <div>

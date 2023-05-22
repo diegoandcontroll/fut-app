@@ -1,9 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
+import TeamChart from "@/components/chart";
+import Table from "@/components/table";
 import { AppActions, useAppContext } from "@/context/Appcontext";
 import { ObjTeam } from "@/types";
 import { leaguesArray, options, optionsTeams } from "@/utils";
-import { Option, Select } from "@material-tailwind/react";
+import { formations, playerArray, responseGraph } from "@/utils/teamsItems";
+import {
+  Avatar,
+  Card,
+  Chip,
+  List,
+  ListItem,
+  ListItemPrefix,
+  ListItemSuffix,
+  Option,
+  Select,
+  Typography,
+} from "@material-tailwind/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -71,7 +85,7 @@ const Statics = () => {
       <Head>
         <title>[YxY].Blog - About</title>
       </Head>
-      <div className="lg:w-full lg:h-full w-auto lg:pt-60 pl-20 focus:outline-none from-pink-100 to-purple-100 to-slate-950">
+      <div className="lg:w-full lg:h-full w-auto lg:pt-40 pl-20 focus:outline-none from-pink-100 to-purple-100 to-slate-950">
         <div className="grid grid-cols-4 gap-4 flex-col ">
           <div className=" p-4 w-72">
             <Select
@@ -193,6 +207,71 @@ const Statics = () => {
                 </Option>
               ))}
             </Select>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 flex-col pt-8 w-full h-screen pr-30">
+          <div className={` w-72 `}>
+            <h1 className="py-4 text-center text-white text-lg font-semibold">Info - Jogadores</h1>
+            <Card className="w-96 max-h-96 overflow-y-auto h-96">
+              <List>
+                {playerArray.map((p) => (
+                  <>
+                    <ListItem key={p.id}>
+                      <ListItemPrefix>
+                        <Avatar
+                          variant="circular"
+                          alt="candice"
+                          src={p.photo}
+                        />
+                      </ListItemPrefix>
+                      <div>
+                        <Typography variant="h6" color="blue-gray">
+                          {p.name}
+                        </Typography>
+                        <Typography
+                          variant="small"
+                          color="gray"
+                          className="font-normal"
+                        >
+                          {`${p.name} - ${p.age} - ${p.nationality}`}
+                        </Typography>
+                      </div>
+                    </ListItem>
+                  </>
+                ))}
+              </List>
+            </Card>
+          </div>
+          <div className={` w-72`}>
+          <h1 className="py-4 text-center text-white text-lg font-semibold pl-10">Formaçõeos mais usadadas</h1>
+            <Card className="w-96 h-96">
+              <List>
+                {formations.map((f) => (
+                  <>
+                    <ListItem key={f.formation}>
+                      {f.formation}
+                      <ListItemSuffix>
+                        <Chip
+                          value={f.played}
+                          variant="ghost"
+                          size="sm"
+                          className="rounded-full"
+                        />
+                      </ListItemSuffix>
+                    </ListItem>
+                  </>
+                ))}
+              </List>
+            </Card>
+          </div>
+          <div className={`w-72`}>
+          <h1 className="py-4 text-center text-white text-lg font-semibold">Resultados</h1>
+            <Table />
+          </div>
+        </div>
+        <div className="flex justify-center items-center gap-10 w-full h-screen">
+          <div className="">
+            <TeamChart data={responseGraph[0]}/>
           </div>
         </div>
       </div>
