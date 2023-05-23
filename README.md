@@ -1,38 +1,37 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Meu Time - Aplicação Web para Visualizar Informações sobre Ligas e Copas
 
-## Getting Started
+Meu Time é uma aplicação web desenvolvida em Next.js, TypeScript e Tailwind CSS que utiliza a API-Football para exibir informações sobre ligas e copas ao redor do mundo.
 
-First, run the development server:
+## Pré-requisitos
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+Antes de começar, certifique-se de ter o seguinte instalado em sua máquina:
+
+- Node.js (versão 12 ou superior)
+- npm (gerenciador de pacotes do Node.js)
+- Docker e Docker Compose
+
+## Configuração da API-Football
+
+Para acessar a API-Football e obter os dados necessários para a aplicação, você precisará criar uma conta na API-Football e obter uma chave de autenticação (API key). Siga as etapas abaixo:
+
+1. Acesse o site da API-Football [api](https://dashboard.api-football.com/) e crie uma conta.
+2. Faça login em sua conta e obtenha a chave de autenticação (API key).
+
+## Configuração do Projeto
+
+Siga as etapas abaixo para configurar e executar o projeto localmente:
+
+1. Clone este repositório para o seu ambiente local.
+
+```shell
+git clone https://github.com/diegoandcontroll/fut-app.git
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2. Acesse o diretório do projeto.
+3. Rodando o projeto com docker-compose
+```shell
+docker-compose up --build
+```
+4.Executando sem o docker
+```shell
+  yarn dev
+```
