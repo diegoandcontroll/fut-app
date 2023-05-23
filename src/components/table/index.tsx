@@ -1,15 +1,8 @@
+import { TableProps } from "@/types";
 import { Card, Typography } from "@material-tailwind/react";
 
-export const Table = () => {
+export const Table: React.FC<TableProps> = ({data}) => {
   const TABLE_HEAD = ["t.jog", "t.vit", "t.der", "t.emp"];
-  const TABLE_ROWS = [
-    {
-      games: 3,
-      victories: 3,
-      defeats: 2,
-      empates: 1,
-    },
-  ];
   return (
     <Card className="w-96 max-h-96 overflow-y-auto h-96">
       <table className="w-full min-w-max table-auto text-left">
@@ -32,8 +25,8 @@ export const Table = () => {
           </tr>
         </thead>
         <tbody className="">
-          {TABLE_ROWS.map(({ games, victories, defeats, empates }, index) => {
-            const isLast = index === TABLE_ROWS.length - 1;
+          {data.map(({ games, victories, defeats, draws }, index) => {
+            const isLast = index === data.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
             return (
@@ -73,7 +66,7 @@ export const Table = () => {
                     color="blue"
                     className="font-medium"
                   >
-                    {empates}
+                    {draws}
                   </Typography>
                 </td>
               </tr>

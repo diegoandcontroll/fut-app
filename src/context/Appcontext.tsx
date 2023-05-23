@@ -9,7 +9,7 @@ type State = {
   imgCountry: string;
   league: LeagueObj;
   team: ObjTeam;
-  tableObjs: ObjTables
+  tableObjs: ObjTables;
 };
 type Action = {
   type: AppActions;
@@ -24,29 +24,22 @@ type ContextType = {
 type AppProviderProps = {
   children: ReactNode;
 };
+// 4e9796f4a1f70383002f539c90dea27a
 const initialData: State = {
   apiKey: "",
   isValidApiKey: false,
-  isLogged: false,
+  isLogged: true,
   country: "",
   season: "",
   imgCountry: "",
-  league: {
-    name: "",
-    logo: "",
-    id: 0,
-  },
-  team: {
-    name: "",
-    id: 0,
-    logo: "",
-  },
+  league: {},
+  team: {},
   tableObjs: {
     tGames: 0,
     tDraws: 0,
     tLoses: 0,
     tVictories: 0,
-  }
+  },
 };
 const AppContext = createContext<ContextType | undefined>(undefined);
 
@@ -59,7 +52,7 @@ export enum AppActions {
   setTeam,
   setLeague,
   setIsValidApiKey,
-  setTableObjs
+  setTableObjs,
 }
 const appReducer = (state: State, action: Action) => {
   switch (action.type) {

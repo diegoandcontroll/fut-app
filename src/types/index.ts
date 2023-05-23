@@ -1,11 +1,11 @@
 export type Team = {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
   code: string;
   country: string;
   founded: number;
   national: boolean;
-  logo: string;
+  logo?: string;
 };
 export type ObjTeam = Pick<Team, 'id' | 'name' | 'logo'>;
 export type OriginalData = {
@@ -21,10 +21,10 @@ export type OriginalData = {
   };
 };
 export type League = {
-  id: number;
-  name: string;
-  type: string;
-  logo: string;
+  id?: number;
+  name?: string;
+  type?: string;
+  logo?: string;
 };
 
 export type LeagueObj = Pick<League, 'id' | 'logo' | 'name'>
@@ -380,6 +380,15 @@ export interface TeamData {
       };
     };
   }
+}
+export interface TableProps{
+  data: TablePropsObj[]
+}
+export interface TablePropsObj{
+  games: number,
+  victories: number,
+  defeats: number,
+  draws: number
 }
 export interface Formation {
   formation: string,

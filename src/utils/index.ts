@@ -1,4 +1,4 @@
-import { League, OriginalData, ResponseData } from "@/types";
+import { League, OriginalData, ResponseData, TablePropsObj } from "@/types";
 
 export const options = [
   { label: "2022", value: "2022" },
@@ -36,6 +36,15 @@ export const options = [
   { label: "1986", value: "1986" },
   { label: "1982", value: "1982" },
   { label: "1966", value: "1966" },
+];
+
+export const dataTable: TablePropsObj[] = [
+  {
+    games: 3,
+    victories: 3,
+    defeats: 2,
+    draws: 1,
+  },
 ];
 export const formations = [
   {
