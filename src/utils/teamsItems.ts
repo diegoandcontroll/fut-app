@@ -1902,7 +1902,7 @@ const values =  [
 		}
 ];
 
-function extractPlayerData(response: any[]): Player[] {
+export function extractPlayerData(response: any[]): Player[] {
   const playerData: Player[] = [];
 
   for (const item of response) {
@@ -1915,26 +1915,8 @@ function extractPlayerData(response: any[]): Player[] {
   return playerData;
 }
 
-export const playerArray = extractPlayerData(values);
 
-export const formations = [
-  {
-  "formation": "4-2-3-1",
-  "played": 32
-  },
-  {
-  "formation": "3-4-1-2",
-  "played": 4
-  },
-  {
-  "formation": "3-4-2-1",
-  "played": 1
-  },
-  {
-  "formation": "4-3-1-2",
-  "played": 1
-  }
-];
+
 
 export const responseGraph = [
 	{

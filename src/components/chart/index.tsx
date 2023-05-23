@@ -154,7 +154,7 @@ const TeamChart: React.FC<ChartProps> = ({ data }) => {
         />
       </div>
 
-      <div className={` w-72 `}>
+      <div className={` w-72 pb-8`}>
         <h1 className="py-4 text-center text-white text-lg font-semibold">
           Failed to Score
         </h1>

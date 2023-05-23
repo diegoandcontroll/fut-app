@@ -98,34 +98,152 @@ export interface ResponseDataGraph {
     };
   };
 }
-// export interface PropChart {
-//   goals: {
-//     for: {
-//       total: {
-//         home: number;
-//         away: number;
-//         total: number;
-//       };
-//       average: {
-//         home: string;
-//         away: string;
-//         total: string;
-//       };
-//     };
-//     against: {
-//       total: {
-//         home: number;
-//         away: number;
-//         total: number;
-//       };
-//       average: {
-//         home: string;
-//         away: string;
-//         total: string;
-//       };
-//     };
-//   };
-// }
+export interface ObjTables {
+  tGames: number;
+  tVictories: number;
+  tLoses: number;
+  tDraws: number;
+}
+export interface TeamData2 {
+  response: {
+    league: {
+      id: number;
+      name: string;
+      country: string;
+      logo: string;
+      flag: string;
+      season: number;
+    },
+    team: {
+      id: number;
+      name: string;
+      logo: string;
+    },
+    form: string,
+    fixtures: {
+      played: {
+        home: number;
+        away: number;
+        total: number;
+      };
+      wins: {
+        home: number;
+        away: number;
+        total: number;
+      };
+      draws: {
+        home: number;
+        away: number;
+        total: number;
+      };
+      loses: {
+        home: number;
+        away: number;
+        total: number;
+      };
+    },
+    goals: {
+      for: {
+        total: {
+          home: number;
+          away: number;
+          total: number;
+        };
+        average: {
+          home: string;
+          away: string;
+          total: string;
+        };
+        minute: {
+          [key: string]: {
+            total: number | null;
+            percentage: string | null;
+          };
+        };
+      };
+      against: {
+        total: {
+          home: number;
+          away: number;
+          total: number;
+        };
+        average: {
+          home: string;
+          away: string;
+          total: string;
+        };
+        minute: {
+          [key: string]: {
+            total: number | null;
+            percentage: string | null;
+          };
+        };
+      };
+    },
+    biggest: {
+      streak: {
+        wins: number;
+        draws: number;
+        loses: number;
+      };
+      wins: {
+        home: string;
+        away: string;
+      };
+      loses: {
+        home: string;
+        away: string;
+      };
+      goals: {
+        for: {
+          home: number;
+          away: number;
+        };
+        against: {
+          home: number;
+          away: number;
+        };
+      };
+    },
+    clean_sheet: {
+      home: number;
+      away: number;
+      total: number;
+    },
+    failed_to_score: {
+      home: number;
+      away: number;
+      total: number;
+    },
+    penalty: {
+      scored: {
+        total: number;
+        percentage: string;
+      };
+      missed: {
+        total: number;
+        percentage: string;
+      };
+      total: number;
+    },
+    lineups: any[],
+    cards: {
+      yellow: {
+        [key: string]: {
+          total: number | null;
+          percentage: string | null;
+        };
+      };
+      red: {
+        [key: string]: {
+          total: number | null;
+          percentage: string | null;
+        };
+      };
+    }
+  }
+
+}
 export interface TeamData {
   league: {
     id: number;
@@ -134,13 +252,13 @@ export interface TeamData {
     logo: string;
     flag: string;
     season: number;
-  };
+  },
   team: {
     id: number;
     name: string;
     logo: string;
-  };
-  form: string;
+  },
+  form: string,
   fixtures: {
     played: {
       home: number;
@@ -162,7 +280,7 @@ export interface TeamData {
       away: number;
       total: number;
     };
-  };
+  },
   goals: {
     for: {
       total: {
@@ -200,7 +318,7 @@ export interface TeamData {
         };
       };
     };
-  };
+  },
   biggest: {
     streak: {
       wins: number;
@@ -225,17 +343,17 @@ export interface TeamData {
         away: number;
       };
     };
-  };
+  },
   clean_sheet: {
     home: number;
     away: number;
     total: number;
-  };
+  },
   failed_to_score: {
     home: number;
     away: number;
     total: number;
-  };
+  },
   penalty: {
     scored: {
       total: number;
@@ -246,8 +364,8 @@ export interface TeamData {
       percentage: string;
     };
     total: number;
-  };
-  lineups: any[];
+  },
+  lineups: any[],
   cards: {
     yellow: {
       [key: string]: {
@@ -261,5 +379,9 @@ export interface TeamData {
         percentage: string | null;
       };
     };
-  };
+  }
+}
+export interface Formation {
+  formation: string,
+  played: number
 }
