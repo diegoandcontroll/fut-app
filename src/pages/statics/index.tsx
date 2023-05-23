@@ -1,11 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 import TeamChart from "@/components/chart";
-import Table from "@/components/table";
+import { Table } from "@/components/table";
 import { AppActions, useAppContext } from "@/context/Appcontext";
-import { ObjTeam } from "@/types";
-import { leaguesArray, options, optionsTeams } from "@/utils";
-import { formations, playerArray, responseGraph } from "@/utils/teamsItems";
+import {
+  Formation,
+  League,
+  ObjTeam,
+  Player,
+  TeamData,
+  TeamData2,
+} from "@/types";
+import { formations, getLeagueData, options } from "@/utils";
+import { extractPlayerData, responseGraph } from "@/utils/teamsItems";
 import {
   Avatar,
   Card,
@@ -18,6 +25,7 @@ import {
   Select,
   Typography,
 } from "@material-tailwind/react";
+import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -29,57 +37,136 @@ const staticObjs = [
   { id: 5, value: "FR", label: "França 🇫🇷" },
   { id: 6, value: "BR", label: "Brasil 🇧🇷" },
 ];
-interface SelectOption {
-  value: number;
-  label: string;
-}
-
-interface SelectProps {
-  options: SelectOption[];
-}
 
 const Statics = () => {
   const router = useRouter();
   const { state, dispatch } = useAppContext();
   const [visibleOptions, setVisibleOptions] = useState(5);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [team, setTeam] = useState<ObjTeam>(state.team);
-
-  const handleLoadMore = () => {
-    setVisibleOptions((prevVisibleOptions) => prevVisibleOptions + 5);
-  };
-  // const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-  //   const selectedTeamId = parseInt(event.target.value, state.team.id);
-  //   const selectedTeam = newArrayTeams.map((data) =>
-  //     data.find((team) => team.id === selectedTeamId)
-  //   );
-
-  //   if (selectedTeam) {
-  //     dispatch({
-  //       type: AppActions.setTeam,
-  //       payload: selectedTeam,
-  //     });
-  //   }
-  // };
-  const handleOptionClick = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({
-      type: AppActions.setSeason,
-      payload: event.target.value,
-    });
-    const value = parseInt(event.target.value, 10);
-    setSelectedOption(value);
-  };
-  const arrayObjs: ObjTeam[] = [];
-  const newArrayTeams = optionsTeams.map((item) => {
-    return item.map(({ team }) => {
-      arrayObjs.push({ id: team.id, name: team.name, logo: team.logo });
-    });
-  });
+  const [team, setTeam] = useState<ObjTeam[]>([]);
+  const [arrayLeague, setArrayLeague] = useState<League[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [arrayPlayers, setArrayPlayers] = useState<Player[]>([]);
+  const [formation, setFormation] = useState<Formation[]>([]);
+  const [graph, setGraph] = useState<TeamData>();
   useEffect(() => {
     if (!state.isLogged) router.push("/");
   }, []);
-  console.log(state);
-  console.log(newArrayTeams);
+  useEffect(() => {
+    async function fectchData() {
+      try {
+        if (state.country !== "" && state.season !== "") {
+          setLoading(true);
+          const response = await axios.get(
+            `https://v3.football.api-sports.io/leagues?code=${state.country}&season=${state.season}`,
+            {
+              headers: {
+                "x-rapidapi-host": "v3.football.api-sports.io",
+                "x-rapidapi-key": state.apiKey,
+              },
+            }
+          );
+          // setArrayLeague(arrayLeaguesParsed);
+          setArrayLeague(getLeagueData(response.data?.response));
+        }
+      } catch (e) {
+        console.log(e);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fectchData();
+  }, [state.country, state.season]);
+
+  useEffect(() => {
+    async function fectchData() {
+      try {
+        if (state.country !== "" && state.season !== "") {
+          const response = await axios.get(
+            `https://v3.football.api-sports.io/teams?league=${state.league.id}&season=${state.season}`,
+            {
+              headers: {
+                "x-rapidapi-host": "v3.football.api-sports.io",
+                "x-rapidapi-key": state.apiKey,
+              },
+            }
+          );
+          // setArrayLeague(arrayLeaguesParsed);
+          const data = response.data?.response;
+          const newArray = data.map(({ team }: any) => {
+            return team;
+          });
+          setTeam(newArray);
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+      }
+    }
+    fectchData();
+  }, [state.league.id, state.season]);
+  useEffect(() => {
+    async function fectchData() {
+      try {
+        if (state.country !== "" && state.season !== "") {
+          const response = await axios.get(
+            `https://v3.football.api-sports.io/players?team=${state.team.id}&season=${state.season}&league=${state.league.id}&page=1`,
+            {
+              headers: {
+                "x-rapidapi-host": "v3.football.api-sports.io",
+                "x-rapidapi-key": state.apiKey,
+              },
+            }
+          );
+          // setArrayLeague(arrayLeaguesParsed);
+          setArrayPlayers(extractPlayerData(response.data.response));
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+      }
+    }
+    fectchData();
+  }, [state.team.id, state.season, state.league.id]);
+  useEffect(() => {
+    async function fectchData() {
+      try {
+        // if (state.country !== "" && state.season !== "") {
+          const response = await axios.get<TeamData2>(
+            `https://v3.football.api-sports.io/teams/statistics?team=${state.team.id}&league=${state.league.id}&season=${state.season}`,
+            {
+              headers: {
+                "x-rapidapi-host": "v3.football.api-sports.io",
+                "x-rapidapi-key": state.apiKey,
+              },
+            }
+          );
+          console.log("REQUEST", response.data.response);
+          const { fixtures, lineups } = response.data.response;
+          console.log(fixtures, lineups);
+          setFormation(lineups);
+          console.log(lineups);
+          dispatch({
+            type: AppActions.setTableObjs,
+            payload: {
+              tGames: fixtures?.played,
+              tDraws: fixtures?.draws,
+              tLoses: fixtures?.loses,
+              tVictories: fixtures?.wins,
+            },
+          });
+          // const {response: teamData2} = response.data;
+          // setGraph(teamData2);
+          // console.log('GRAPH',graph);
+        // }
+      } catch (e) {
+        console.log(e);
+      } finally {
+      }
+    }
+    fectchData();
+  }, [state.team.id, state.season, state.league.id]);
   return (
     <>
       <Head>
@@ -140,31 +227,30 @@ const Statics = () => {
                   className: "flex items-center px-0 gap-2 pointer-events-none",
                 })
               }
-              value={`${state.league.name}`}
               onChange={(e) => {
                 const selectedLeagueName = e;
-                const selectedleague = leaguesArray.find(
+                const selectedLeague = arrayLeague.find(
                   (league) => league.name === selectedLeagueName
                 );
-                if (selectedLeagueName) {
+                if (selectedLeague) {
                   dispatch({
                     type: AppActions.setLeague,
-                    payload: selectedleague,
+                    payload: selectedLeague,
                   });
                 }
               }}
               variant="static"
-              label="Select your team"
+              label="Select your league"
               className="border-b-purple-900 text-xl text-white mt-[4px]"
             >
-              {leaguesArray.map((item) => (
-                <Option key={item.id} value={item.name}>
+              {arrayLeague.map((item) => (
+                <Option key={item.name} value={item.name}>
                   <img
                     src={item.logo}
                     alt={item.name}
                     className="h-5 w-5 rounded-full object-cover"
                   />
-                  {item.name}
+                  <span className="text-[14px]">{item.name}</span>
                 </Option>
               ))}
             </Select>
@@ -178,10 +264,9 @@ const Statics = () => {
                   className: "flex items-center px-0 gap-2 pointer-events-none",
                 })
               }
-              value={`${state.team.name}`}
               onChange={(e) => {
                 const selectedTeamName = e;
-                const selectedTeam = arrayObjs.find(
+                const selectedTeam = team.find(
                   (team) => team.name === selectedTeamName
                 );
                 console.log("SELECTED TEAM", selectedTeam);
@@ -196,7 +281,7 @@ const Statics = () => {
               label="Select your team"
               className="border-b-purple-900 text-xl text-white mt-[4px]"
             >
-              {arrayObjs.map((item) => (
+              {team.map((item) => (
                 <Option key={item.id} value={item.name}>
                   <img
                     src={item.logo}
@@ -211,67 +296,88 @@ const Statics = () => {
         </div>
         <div className="grid grid-cols-3 flex-col pt-8 w-full h-screen pr-30">
           <div className={` w-72 `}>
-            <h1 className="py-4 text-center text-white text-lg font-semibold">Info - Jogadores</h1>
-            <Card className="w-96 max-h-96 overflow-y-auto h-96">
-              <List>
-                {playerArray.map((p) => (
-                  <>
-                    <ListItem key={p.id}>
-                      <ListItemPrefix>
-                        <Avatar
-                          variant="circular"
-                          alt="candice"
-                          src={p.photo}
-                        />
-                      </ListItemPrefix>
-                      <div>
-                        <Typography variant="h6" color="blue-gray">
-                          {p.name}
-                        </Typography>
-                        <Typography
-                          variant="small"
-                          color="gray"
-                          className="font-normal"
-                        >
-                          {`${p.name} - ${p.age} - ${p.nationality}`}
-                        </Typography>
-                      </div>
-                    </ListItem>
-                  </>
-                ))}
-              </List>
-            </Card>
+            <h1 className="py-4 text-center text-white text-lg font-semibold">
+              Info - Jogadores
+            </h1>
+            {state.team.name === "" ? (
+              <h1>Selecione as informações</h1>
+            ) : (
+              <Card className="w-96 max-h-96 overflow-y-auto h-96">
+                <List>
+                  {arrayPlayers.map((p) => (
+                    <>
+                      <ListItem key={p.id}>
+                        <ListItemPrefix>
+                          <Avatar
+                            variant="circular"
+                            alt="candice"
+                            src={p.photo}
+                          />
+                        </ListItemPrefix>
+                        <div>
+                          <Typography variant="h6" color="blue-gray">
+                            {p.name}
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            color="gray"
+                            className="font-normal"
+                          >
+                            {`${p.name} - ${p.age} - ${p.nationality}`}
+                          </Typography>
+                        </div>
+                      </ListItem>
+                    </>
+                  ))}
+                </List>
+              </Card>
+            )}
           </div>
           <div className={` w-72`}>
-          <h1 className="py-4 text-center text-white text-lg font-semibold pl-10">Formaçõeos mais usadadas</h1>
-            <Card className="w-96 h-96">
-              <List>
-                {formations.map((f) => (
-                  <>
-                    <ListItem key={f.formation}>
-                      {f.formation}
-                      <ListItemSuffix>
-                        <Chip
-                          value={f.played}
-                          variant="ghost"
-                          size="sm"
-                          className="rounded-full"
-                        />
-                      </ListItemSuffix>
-                    </ListItem>
-                  </>
-                ))}
-              </List>
-            </Card>
+            <h1 className="py-4 text-center text-white text-lg font-semibold pl-10">
+              Formações mais usadadas
+            </h1>
+            {state.team.name === "" ? (
+              <h1>Selecione as informações</h1>
+            ) : (
+              <Card className="w-96 h-96">
+                <List>
+                  {formations.map((f) => (
+                    <>
+                      <ListItem key={f.formation}>
+                        {f.formation}
+                        <ListItemSuffix>
+                          <Chip
+                            value={f.played}
+                            variant="ghost"
+                            size="sm"
+                            className="rounded-full"
+                          />
+                        </ListItemSuffix>
+                      </ListItem>
+                    </>
+                  ))}
+                </List>
+              </Card>
+            )}
           </div>
           <div className={`w-72`}>
-          <h1 className="py-4 text-center text-white text-lg font-semibold">Resultados</h1>
-            <Table />
+            <h1 className="py-4 text-center text-white text-lg font-semibold">
+              Resultados
+            </h1>
+            {state.team.name === "" ? (
+              <h1>Selecione as informações</h1>
+            ) : (
+              <Table  />
+            )}
           </div>
         </div>
-        <div className="flex justify-center items-center gap-10 w-full h-screen">
-          <div className="">
-            <TeamChart data={responseGraph[0]}/>
+        <h1 className="text-6xl lg:text-8xl text-green-300 font-extralight text-center">
+          Graficos
+        </h1>
+        <div className="flex justify-center items-center gap-10 w-full h-screen mt-32">
+          <div>
+            <TeamChart data={responseGraph[0]} />
           </div>
         </div>
       </div>

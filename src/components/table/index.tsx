@@ -1,6 +1,6 @@
 import { Card, Typography } from "@material-tailwind/react";
 
-const Table = () => {
+export const Table = () => {
   const TABLE_HEAD = ["t.jog", "t.vit", "t.der", "t.emp"];
   const TABLE_ROWS = [
     {
@@ -84,5 +84,3 @@ const Table = () => {
     </Card>
   );
 };
-
-export default Table;

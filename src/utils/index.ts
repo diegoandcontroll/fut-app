@@ -37,7 +37,24 @@ export const options = [
   { label: "1982", value: "1982" },
   { label: "1966", value: "1966" },
 ];
-
+export const formations = [
+  {
+  "formation": "4-2-3-1",
+  "played": 32
+  },
+  {
+  "formation": "3-4-1-2",
+  "played": 4
+  },
+  {
+  "formation": "3-4-2-1",
+  "played": 1
+  },
+  {
+  "formation": "4-3-1-2",
+  "played": 1
+  }
+  ];
 export const optionsTeams: OriginalData[][] = [
   [
     {

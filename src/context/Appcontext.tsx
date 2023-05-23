@@ -1,14 +1,15 @@
-import { LeagueObj, ObjTeam } from "@/types";
+import { LeagueObj, ObjTables, ObjTeam } from "@/types";
 import { ReactNode, createContext, useContext, useReducer } from "react";
-
 type State = {
   apiKey: string;
+  isValidApiKey: boolean;
   isLogged: boolean;
   country: string;
   season: string;
   imgCountry: string;
   league: LeagueObj;
   team: ObjTeam;
+  tableObjs: ObjTables
 };
 type Action = {
   type: AppActions;
@@ -25,6 +26,7 @@ type AppProviderProps = {
 };
 const initialData: State = {
   apiKey: "",
+  isValidApiKey: false,
   isLogged: false,
   country: "",
   season: "",
@@ -32,13 +34,19 @@ const initialData: State = {
   league: {
     name: "",
     logo: "",
-    id: 39,
+    id: 0,
   },
   team: {
     name: "",
     id: 0,
     logo: "",
   },
+  tableObjs: {
+    tGames: 0,
+    tDraws: 0,
+    tLoses: 0,
+    tVictories: 0,
+  }
 };
 const AppContext = createContext<ContextType | undefined>(undefined);
 
@@ -50,6 +58,8 @@ export enum AppActions {
   setImgCountry,
   setTeam,
   setLeague,
+  setIsValidApiKey,
+  setTableObjs
 }
 const appReducer = (state: State, action: Action) => {
   switch (action.type) {
@@ -67,6 +77,10 @@ const appReducer = (state: State, action: Action) => {
       return { ...state, team: action.payload };
     case AppActions.setLeague:
       return { ...state, league: action.payload };
+    case AppActions.setIsValidApiKey:
+      return { ...state, isValidApiKey: action.payload };
+    case AppActions.setTableObjs:
+      return { ...state, tableObjs: action.payload };
     default:
       return state;
   }
@@ -75,6 +89,7 @@ const appReducer = (state: State, action: Action) => {
 export const AppProvider = ({ children }: AppProviderProps) => {
   const [state, dispatch] = useReducer(appReducer, initialData);
   const value = { state, dispatch };
+
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 

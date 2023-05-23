@@ -2,10 +2,10 @@
 import Carousel from "@/components/carousel";
 import { AppActions, useAppContext } from "@/context/Appcontext";
 import { Button, Input } from "@material-tailwind/react";
+import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ChangeEvent, FormEvent, useState } from "react";
-
+import { FormEvent, useCallback, useEffect, useState } from "react";
 interface DisplayStringState {
   value: string;
 }
@@ -16,34 +16,60 @@ export default function Home() {
   const [displayString, setDisplayString] = useState<DisplayStringState>({
     value: "",
   });
-  console.log(state, displayString);
-  const handleSubmit = (e: FormEvent) => {
+  
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (state.apiKey === "" || state.apiKey.length < 10) {
-      dispatch({
-        type: AppActions.setIsLogged,
-        payload: false,
-      });
-      setDisplayString((prevState) => ({ ...prevState, value: "" }));
-      alert("APIKEY INVALID");
+    let isValid;
+
+    const response = await axios.get(
+      "https://v3.football.api-sports.io/timezone",
+      {
+        headers: {
+          "x-rapidapi-host": "v3.football.api-sports.io",
+          "x-rapidapi-key": displayString.value,
+        },
+      }
+    );
+    if (response.data.results > 0) {
+      isValid = true;
     } else {
+      isValid = false;
+    }
+    if (isValid) {
+      dispatch({
+        type: AppActions.setIsValidApiKey,
+        payload: isValid,
+      });
+      dispatch({
+        type: AppActions.setApiKey,
+        payload: displayString.value,
+      });
       dispatch({
         type: AppActions.setIsLogged,
         payload: true,
       });
-      setDisplayString((prevState) => ({ ...prevState, value: "" }));
       router.push("/statics");
+    } else {
+      setDisplayString((prevState) => ({ ...prevState, value: "" }));
+      alert("INVALID API KEY");
     }
   };
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setDisplayString((prevState) => ({ ...prevState, value }));
-    dispatch({
-      type: AppActions.setApiKey,
-      payload: value,
-    });
-  };
-  
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = event.target.value;
+      if (displayString.value !== newValue) {
+        setDisplayString({
+          value: newValue,
+        });
+      }
+    },
+    [displayString.value]
+  );
+  useEffect(() => {
+    if (state.isValidApiKey)
+      dispatch({ type: AppActions.setApiKey, payload: displayString.value });
+  }, [state.isValidApiKey]);
+
   return (
     <>
       <Head>
