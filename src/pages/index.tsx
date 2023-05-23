@@ -9,14 +9,12 @@ import { FormEvent, useCallback, useEffect, useState } from "react";
 interface DisplayStringState {
   value: string;
 }
-
 export default function Home() {
   const router = useRouter();
   const { state, dispatch } = useAppContext();
   const [displayString, setDisplayString] = useState<DisplayStringState>({
     value: "",
   });
-  
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     let isValid;
@@ -69,7 +67,6 @@ export default function Home() {
     if (state.isValidApiKey)
       dispatch({ type: AppActions.setApiKey, payload: displayString.value });
   }, [state.isValidApiKey]);
-
   return (
     <>
       <Head>
@@ -111,10 +108,7 @@ export default function Home() {
               label="ApiKey"
               className="focus:outline-none text-white"
             />
-            {/* <input type="password" id="default-search" className="block w-full p-4 pl-14 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 focus:outline-none" placeholder="ApiKey" required onChange={(e) => dispatch({
-          type: AppActions.setApiKey,
-          payload: e.target.value
-        })}/> */}
+            
           </div>
           <Button
             type="submit"

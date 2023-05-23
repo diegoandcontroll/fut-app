@@ -1,18 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
-import TeamChart from "@/components/chart";
+//a81f144f126b579ddc45b6e8c194a3cb
 import { Table } from "@/components/table";
 import { AppActions, useAppContext } from "@/context/Appcontext";
-import {
-  Formation,
-  League,
-  ObjTeam,
-  Player,
-  TeamData,
-  TeamData2,
-} from "@/types";
-import { formations, getLeagueData, options } from "@/utils";
-import { extractPlayerData, responseGraph } from "@/utils/teamsItems";
+import { Formation, League, ObjTeam, Player, TeamData } from "@/types";
+import { dataTable, formations, getLeagueData, options } from "@/utils";
+import { extractPlayerData } from "@/utils/teamsItems";
+
 import {
   Avatar,
   Card,
@@ -53,100 +47,48 @@ const Statics = () => {
     if (!state.isLogged) router.push("/");
   }, []);
   useEffect(() => {
-    async function fectchData() {
-      try {
-        if (state.country !== "" && state.season !== "") {
-          setLoading(true);
-          const response = await axios.get(
-            `https://v3.football.api-sports.io/leagues?code=${state.country}&season=${state.season}`,
-            {
-              headers: {
-                "x-rapidapi-host": "v3.football.api-sports.io",
-                "x-rapidapi-key": state.apiKey,
-              },
-            }
-          );
-          // setArrayLeague(arrayLeaguesParsed);
-          setArrayLeague(getLeagueData(response.data?.response));
-        }
-      } catch (e) {
-        console.log(e);
-        setLoading(false);
-      } finally {
-        setLoading(false);
+    const fetchData = async () => {
+      if (!state.country || !state.season) {
+        return; // Ignorar a chamada se state.country ou state.season estiverem vazios
       }
-    }
-    fectchData();
-  }, [state.country, state.season]);
 
-  useEffect(() => {
-    async function fectchData() {
       try {
-        if (state.country !== "" && state.season !== "") {
-          const response = await axios.get(
-            `https://v3.football.api-sports.io/teams?league=${state.league.id}&season=${state.season}`,
-            {
-              headers: {
-                "x-rapidapi-host": "v3.football.api-sports.io",
-                "x-rapidapi-key": state.apiKey,
-              },
-            }
+        const headers = {
+          "x-apisports-key": state.apiKey,
+        };
+
+        // Fetch Leagues
+        const leaguesUrl = `https://v3.football.api-sports.io/leagues?code=${state.country}&season=${state.season}`;
+        const leaguesResponse = await axios.get(leaguesUrl, { headers });
+        setArrayLeague(getLeagueData(leaguesResponse.data?.response));
+
+        // Fetch Teams
+        if (state.league?.id) {
+          const teamsUrl = `https://v3.football.api-sports.io/teams?league=${state.league?.id}&season=${state.season}`;
+          const teamsResponse = await axios.get(teamsUrl, { headers });
+          const newTeamArray = teamsResponse.data?.response.map(
+            ({ team }: any) => team
           );
-          // setArrayLeague(arrayLeaguesParsed);
-          const data = response.data?.response;
-          const newArray = data.map(({ team }: any) => {
-            return team;
+          setTeam(newTeamArray);
+        }
+
+        // Fetch Players
+        if (state.league?.id && state.team?.id) {
+          setLoading(true);
+          const playersUrl = `https://v3.football.api-sports.io/players?team=${state.team?.id}&season=${state.season}&league=${state.league?.id}&page=1`;
+          const playersResponse = await axios.get(playersUrl, { headers });
+          setArrayPlayers(extractPlayerData(playersResponse.data?.response));
+        }
+        setLoading(false);
+
+        // Fetch Team Statistics
+        if (state.league?.id && state.team?.id) {
+          const teamStatisticsUrl = `https://v3.football.api-sports.io/teams/statistics?team=${state.team?.id}&league=${state.league?.id}&season=${state.season}`;
+          const teamStatisticsResponse = await axios.get(teamStatisticsUrl, {
+            headers,
           });
-          setTeam(newArray);
-        }
-      } catch (e) {
-        console.log(e);
-      } finally {
-      }
-    }
-    fectchData();
-  }, [state.league.id, state.season]);
-  useEffect(() => {
-    async function fectchData() {
-      try {
-        if (state.country !== "" && state.season !== "") {
-          const response = await axios.get(
-            `https://v3.football.api-sports.io/players?team=${state.team.id}&season=${state.season}&league=${state.league.id}&page=1`,
-            {
-              headers: {
-                "x-rapidapi-host": "v3.football.api-sports.io",
-                "x-rapidapi-key": state.apiKey,
-              },
-            }
-          );
-          // setArrayLeague(arrayLeaguesParsed);
-          setArrayPlayers(extractPlayerData(response.data.response));
-        }
-      } catch (e) {
-        console.log(e);
-      } finally {
-      }
-    }
-    fectchData();
-  }, [state.team.id, state.season, state.league.id]);
-  useEffect(() => {
-    async function fectchData() {
-      try {
-        // if (state.country !== "" && state.season !== "") {
-          const response = await axios.get<TeamData2>(
-            `https://v3.football.api-sports.io/teams/statistics?team=${state.team.id}&league=${state.league.id}&season=${state.season}`,
-            {
-              headers: {
-                "x-rapidapi-host": "v3.football.api-sports.io",
-                "x-rapidapi-key": state.apiKey,
-              },
-            }
-          );
-          console.log("REQUEST", response.data.response);
-          const { fixtures, lineups } = response.data.response;
-          console.log(fixtures, lineups);
+          const { fixtures, lineups } = teamStatisticsResponse.data?.response;
           setFormation(lineups);
-          console.log(lineups);
           dispatch({
             type: AppActions.setTableObjs,
             payload: {
@@ -156,17 +98,30 @@ const Statics = () => {
               tVictories: fixtures?.wins,
             },
           });
-          // const {response: teamData2} = response.data;
-          // setGraph(teamData2);
-          // console.log('GRAPH',graph);
-        // }
-      } catch (e) {
-        console.log(e);
-      } finally {
+        }
+      } catch (error) {
+        console.error(error);
       }
-    }
-    fectchData();
-  }, [state.team.id, state.season, state.league.id]);
+    };
+
+    fetchData();
+  }, [state.country, state.season, state.league?.id, state.team?.id, dispatch]);
+
+  useEffect(() => {
+    dispatch({
+      type: AppActions.setTeam,
+      payload: null,
+    });
+    dispatch({
+      type: AppActions.setLeague,
+      payload: null,
+    });
+    setFormation([]);
+    setArrayLeague([]);
+    setTeam([]);
+    setArrayPlayers([]);
+  }, [state.country, state.season, dispatch]);
+  console.log(state);
   return (
     <>
       <Head>
@@ -299,7 +254,7 @@ const Statics = () => {
             <h1 className="py-4 text-center text-white text-lg font-semibold">
               Info - Jogadores
             </h1>
-            {state.team.name === "" ? (
+            {!state.team ? (
               <h1>Selecione as informações</h1>
             ) : (
               <Card className="w-96 max-h-96 overflow-y-auto h-96">
@@ -337,49 +292,53 @@ const Statics = () => {
             <h1 className="py-4 text-center text-white text-lg font-semibold pl-10">
               Formações mais usadadas
             </h1>
-            {state.team.name === "" ? (
+            {!state.team ? (
               <h1>Selecione as informações</h1>
+            ) : loading ? (
+              <h1>Loading...</h1>
             ) : (
-              <Card className="w-96 h-96">
-                <List>
-                  {formations.map((f) => (
-                    <>
-                      <ListItem key={f.formation}>
-                        {f.formation}
-                        <ListItemSuffix>
-                          <Chip
-                            value={f.played}
-                            variant="ghost"
-                            size="sm"
-                            className="rounded-full"
-                          />
-                        </ListItemSuffix>
-                      </ListItem>
-                    </>
-                  ))}
-                </List>
-              </Card>
+              <>
+                <Card className="w-96 h-96">
+                  <List>
+                    {formations.map((f) => (
+                      <>
+                        <ListItem key={f.formation}>
+                          {f.formation}
+                          <ListItemSuffix>
+                            <Chip
+                              value={f.played}
+                              variant="ghost"
+                              size="sm"
+                              className="rounded-full"
+                            />
+                          </ListItemSuffix>
+                        </ListItem>
+                      </>
+                    ))}
+                  </List>
+                </Card>
+              </>
             )}
           </div>
           <div className={`w-72`}>
             <h1 className="py-4 text-center text-white text-lg font-semibold">
               Resultados
             </h1>
-            {state.team.name === "" ? (
+            {!state.team ? (
               <h1>Selecione as informações</h1>
             ) : (
-              <Table  />
+              <Table data={dataTable} />
             )}
           </div>
         </div>
-        <h1 className="text-6xl lg:text-8xl text-green-300 font-extralight text-center">
+        {/* <h1 className="text-6xl lg:text-8xl text-green-300 font-extralight text-center">
           Graficos
         </h1>
         <div className="flex justify-center items-center gap-10 w-full h-screen mt-32">
           <div>
-            <TeamChart data={responseGraph[0]} />
+            <TeamChart data={graph} />
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
