@@ -10,6 +10,7 @@ type State = {
   league: LeagueObj;
   team: ObjTeam;
   tableObjs: ObjTables;
+  loading: boolean;
 };
 type Action = {
   type: AppActions;
@@ -24,14 +25,15 @@ type ContextType = {
 type AppProviderProps = {
   children: ReactNode;
 };
-// 4e9796f4a1f70383002f539c90dea27a
+
 const initialData: State = {
   apiKey: "",
   isValidApiKey: false,
-  isLogged: true,
+  isLogged: false,
   country: "",
   season: "",
   imgCountry: "",
+  loading: false,
   league: {},
   team: {},
   tableObjs: {
@@ -53,6 +55,7 @@ export enum AppActions {
   setLeague,
   setIsValidApiKey,
   setTableObjs,
+  setLoading,
 }
 const appReducer = (state: State, action: Action) => {
   switch (action.type) {
@@ -74,6 +77,8 @@ const appReducer = (state: State, action: Action) => {
       return { ...state, isValidApiKey: action.payload };
     case AppActions.setTableObjs:
       return { ...state, tableObjs: action.payload };
+    case AppActions.setTableObjs:
+      return { ...state, loading: action.payload };
     default:
       return state;
   }

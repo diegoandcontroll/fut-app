@@ -1,7 +1,9 @@
 import { League, OriginalData, ResponseData, TablePropsObj } from "@/types";
 
 export const options = [
+  { label: "2023", value: "2023" },
   { label: "2022", value: "2022" },
+  { label: "2021", value: "2021" },
   { label: "2020", value: "2020" },
   { label: "2019", value: "2019" },
   { label: "2018", value: "2018" },
@@ -15,27 +17,6 @@ export const options = [
   { label: "2010", value: "2010" },
   { label: "2009", value: "2009" },
   { label: "2008", value: "2008" },
-  { label: "2007", value: "2007" },
-  { label: "2006", value: "2006" },
-  { label: "2005", value: "2005" },
-  { label: "2004", value: "2004" },
-  { label: "2003", value: "2003" },
-  { label: "2002", value: "2002" },
-  { label: "2001", value: "2001" },
-  { label: "2000", value: "2000" },
-  { label: "1999", value: "1999" },
-  { label: "1998", value: "1998" },
-  { label: "1997", value: "1997" },
-  { label: "1996", value: "1996" },
-  { label: "1995", value: "1995" },
-  { label: "1994", value: "1994" },
-  { label: "1993", value: "1993" },
-  { label: "1992", value: "1992" },
-  { label: "1991", value: "1991" },
-  { label: "1990", value: "1990" },
-  { label: "1986", value: "1986" },
-  { label: "1982", value: "1982" },
-  { label: "1966", value: "1966" },
 ];
 
 export const dataTable: TablePropsObj[] = [
@@ -775,3 +756,162 @@ export const fakeResponse: ResponseData[] = [
 ];
 
 export const leaguesArray = getLeagueData(fakeResponse);
+export const graphData  = {
+  league: {
+    id: 123,
+    name: "Premier League",
+    country: "England",
+    logo: "https://example.com/logo.png",
+    flag: "https://example.com/flag.png",
+    season: 2023
+  },
+  team: {
+    id: 456,
+    name: "Manchester United",
+    logo: "https://example.com/manutd_logo.png"
+  },
+  form: "WWDLW",
+  fixtures: {
+    played: {
+      home: 10,
+      away: 9,
+      total: 19
+    },
+    wins: {
+      home: 6,
+      away: 4,
+      total: 10
+    },
+    draws: {
+      home: 2,
+      away: 3,
+      total: 5
+    },
+    loses: {
+      home: 2,
+      away: 2,
+      total: 4
+    }
+  },
+  goals: {
+    for: {
+      total: {
+        home: 25,
+        away: 15,
+        total: 40
+      },
+      average: {
+        home: "1.32",
+        away: "1.67",
+        total: "1.51"
+      },
+      minute: {
+        "0-15": {
+          total: 3,
+          percentage: "8%"
+        },
+        "16-30": {
+          total: 5,
+          percentage: "13%"
+        },
+        // Rest of the minute ranges...
+      }
+    },
+    against: {
+      total: {
+        home: 10,
+        away: 20,
+        total: 30
+      },
+      average: {
+        home: "0.53",
+        away: "1.11",
+        total: "0.95"
+      },
+      minute: {
+        "0-15": {
+          total: 2,
+          percentage: "7%"
+        },
+        "16-30": {
+          total: 8,
+          percentage: "27%"
+        },
+        // Rest of the minute ranges...
+      }
+    }
+  },
+  biggest: {
+    streak: {
+      wins: 4,
+      draws: 0,
+      loses: 2
+    },
+    wins: {
+      home: "Wolverhampton Wanderers",
+      away: "Tottenham Hotspur"
+    },
+    loses: {
+      home: "Manchester City",
+      away: "Liverpool"
+    },
+    goals: {
+      for: {
+        home: 4,
+        away: 3
+      },
+      against: {
+        home: 2,
+        away: 5
+      }
+    }
+  },
+  clean_sheet: {
+    home: 7,
+    away: 5,
+    total: 12
+  },
+  failed_to_score: {
+    home: 2,
+    away: 3,
+    total: 5
+  },
+  penalty: {
+    scored: {
+      total: 2,
+      percentage: "66%"
+    },
+    missed: {
+      total: 1,
+      percentage: "33%"
+    },
+    total: 3
+  },
+  lineups: [
+    // Array of lineups, can contain any data
+  ],
+  cards: {
+    yellow: {
+      "0-15": {
+        total: 4,
+        percentage: "10%"
+      },
+      "16-30": {
+        total: 6,
+        percentage: "15%"
+      },
+      // Rest of the minute ranges...
+    },
+    red: {
+      "0-15": {
+        total: 1,
+        percentage: "2.5%"
+      },
+      "16-30": {
+        total: 2,
+        percentage: "5%"
+      },
+      // Rest of the minute ranges...
+    }
+  }
+};
