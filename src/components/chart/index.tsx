@@ -1,3 +1,4 @@
+
 import { TeamData } from "@/types";
 import React from "react";
 import { Chart } from "react-google-charts";
@@ -11,7 +12,6 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ data }) => {
     return <div>No data available</div>;
   }
 
-  // Dados para o gráfico de fixtures
   const fixturesData = [["Type", "Home", "Away"]];
   fixturesData.push([
     "Played",
@@ -34,17 +34,19 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ data }) => {
     data.fixtures?.loses?.away.toString() || "0",
   ]);
 
-  // Dados para o gráfico de goals
-  const goalsData = [["Minute", "Goals For", "Goals Against"]];
-  Object.keys(data?.goals?.for?.minute || {}).forEach((minute) => {
-    const goalsFor =
-      data?.goals?.for?.minute?.[minute]?.total?.toString() || "0";
-    const goalsAgainst =
-      data?.goals?.against?.minute?.[minute]?.total?.toString() || "0";
-    goalsData.push([minute, goalsFor, goalsAgainst]);
-  });
+  const goalsChartData: (string | number)[][] = [
+    ["Minute", "Goals For", "Goals Against"],
+  ];
+  const minuteData = data?.goals?.for?.minute;
+  if (minuteData) {
+    Object.keys(minuteData).forEach((minute) => {
+      const goalsFor = minuteData[minute]?.total || 0;
+      const goalsAgainst = data?.goals?.against?.minute?.[minute]?.total || 0;
+      goalsChartData.push([Number(minute), goalsFor, goalsAgainst]);
+    });
+  }
 
-  // Dados para o gráfico de biggest
+
   const biggestData = [["Type", "Home", "Away"]];
   Object.keys(data?.biggest?.wins || {}).forEach((type) => {
     const homeValue =
@@ -59,48 +61,67 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ data }) => {
   });
 
   return (
-    <div>
-      <h2>Fixtures</h2>
-      <Chart
-        width={"500px"}
-        height={"300px"}
-        chartType="Bar"
-        loader={<div>Loading Chart</div>}
-        data={fixturesData}
-        options={{
-          chart: {
-            title: "Fixtures",
-          },
-        }}
-      />
+    <div className="grid grid-cols-3 flex-col justify-between items-center mr-20 gap-12">
+      {data.fixtures ? (
+        <div>
+          <Chart
+            width={"350px"}
+            height={"300px"}
+            chartType="Bar"
+            loader={<div>Loading Chart</div>}
+            data={fixturesData}
+            options={{
+              chart: {
+                title: "Fixtures",
+              },
+            }}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
 
-      <h2>Goals</h2>
-      <Chart
-        width={"500px"}
-        height={"300px"}
-        chartType="LineChart"
-        loader={<div>Loading Chart</div>}
-        data={goalsData}
-        options={{
-          chart: {
-            title: "Goals",
-          },
-        }}
-      />
+      {data.goals ? (
+        <div>
+          <Chart
+            width={"100%"}
+            height={"300px"}
+            chartType="LineChart"
+            loader={<div>Loading Chart</div>}
+            data={goalsChartData}
+            options={{
+              title: "Goals",
+              hAxis: {
+                title: "Minute",
+              },
+              vAxis: {
+                title: "Goals",
+              },
+            }}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
 
-      <h2>Biggest</h2>
-      <Chart
-        width={"500px"}
-        height={"300px"}
-        chartType="Bar"
-        loader={<div>Loading Chart</div>}
-        data={biggestData}
-        options={{
-          chart: {
-            title: "Biggest",
-          },
-        }}
-      />
+      {data.biggest ? (
+        <div className="w-72">
+        <Chart
+          width={"350px"}
+          height={"300px"}
+          chartType="Bar"
+          loader={<div>Loading Chart</div>}
+          data={biggestData}
+          options={{
+            chart: {
+              title: "Biggest",
+            },
+          }}
+        />
+      </div>
+      ): (
+        <></>
+      )}
     </div>
   );
 };
