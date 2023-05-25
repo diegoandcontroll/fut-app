@@ -1,5 +1,4 @@
 # Meu Time - Aplicação Web para Visualizar Informações sobre Ligas e Copas
-# Prazo para finalizar o teste 24/05
 Meu Time é uma aplicação web desenvolvida em Next.js, TypeScript e Tailwind CSS que utiliza a API-Football para exibir informações sobre ligas e copas ao redor do mundo.
 
 ## Pré-requisitos
