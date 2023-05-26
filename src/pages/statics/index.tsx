@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //a81f144f126b579ddc45b6e8c194a3cb
 import ChartComponent from "@/components/chart";
+import Pagination from "@/components/pagination";
 import { Table } from "@/components/table";
 import { AppActions, useAppContext } from "@/context/Appcontext";
 import {
@@ -15,7 +16,9 @@ import {
   TeamData2,
 } from "@/types";
 import { getLeagueData, options } from "@/utils";
-import { extractPlayerData } from "@/utils/teamsItems";
+import {
+  extractPlayerData
+} from "@/utils/teamsItems";
 
 import {
   Avatar,
@@ -51,17 +54,17 @@ const Statics = () => {
   const [formation, setFormation] = useState<Formation[]>([]);
   const [graph, setGraph] = useState<TeamData | undefined>();
   const [tableObjs, setTableObjs] = useState<TablePropsObj[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const headers = {
     "x-rapidapi-host": "v3.football.api-sports.io",
     "x-apisports-key": state.apiKey,
   };
-  console.log(state);
+
   const fetchLeagues = async (country: string, season: string) => {
     try {
       if (country !== "" && season !== "") {
         const leaguesUrl = `https://v3.football.api-sports.io/leagues?code=${country}&season=${season}`;
         const leaguesResponse = await axios.get(leaguesUrl, { headers });
-        console.log("RESPONSE LEAGUE", leaguesResponse);
         return leaguesResponse.data?.response;
       } else {
         throw new Error("COUNTRY AND SEASON EMPTY");
@@ -80,7 +83,6 @@ const Statics = () => {
     } catch (e) {
       const teamUrl = `https://v3.football.api-sports.io/teams?league=${leagueId}&season=${season}`;
       const teamsResponse = await axios.get(teamUrl, { headers });
-      console.log("RESPONSE TEAM", teamsResponse);
       const arrayTeams = teamsResponse.data?.response.map(
         ({ team }: any) => team
       );
@@ -90,7 +92,8 @@ const Statics = () => {
   const fetchPlayers = async (
     teamId: number | undefined,
     leagueId: number | undefined,
-    season: string
+    season: string,
+    page: number
   ) => {
     try {
       if (!leagueId && season !== "") {
@@ -99,9 +102,8 @@ const Statics = () => {
         throw new Error("SEASON OR LEAGUE_ID INVALID");
       }
     } catch (e) {
-      const playerUrl = `https://v3.football.api-sports.io/players?team=${teamId}&season=${season}&league=${leagueId}&page=1`;
+      const playerUrl = `https://v3.football.api-sports.io/players?team=${teamId}&season=${season}&league=${leagueId}&page=${page}`;
       const playerResponse = await axios.get(playerUrl, { headers });
-      console.log("RESPONSE PLAYER", playerResponse);
       const playerData = extractPlayerData(
         playerResponse.data?.response
       ) as Player[];
@@ -115,14 +117,12 @@ const Statics = () => {
   ) => {
     const staticsUrl = `https://v3.football.api-sports.io/teams/statistics?team=${teamId}&league=${leagueId}&season=${season}`;
     const staticsResponse = await axios.get<TeamData2>(staticsUrl, { headers });
-    console.log("RESPONSE STATICS", staticsResponse);
     const { fixtures, lineups } = staticsResponse.data?.response;
     return [fixtures, lineups, staticsResponse.data?.response];
   };
   useEffect(() => {
-    if (!state.isLogged) router.push("/");
-  }, []);
-
+    if (!state.isLogged && !state.isValidApiKey) router.push("/");
+  }, [state.isLogged, state.isValidApiKey]);
   const fetchDataLeagueCallback = useCallback(async () => {
     if (state.country && state.season) {
       setFormation([]);
@@ -143,10 +143,7 @@ const Statics = () => {
         type: AppActions.setLeague,
         payload: {},
       });
-      const data = (await fetchLeagues(
-        state.country,
-        state.season
-      ));
+      const data = await fetchLeagues(state.country, state.season);
       setArrayLeague(getLeagueData(data));
       dispatch({
         type: AppActions.setLoading,
@@ -193,7 +190,8 @@ const Statics = () => {
       const fetchPlayersPromise = fetchPlayers(
         state.team?.id,
         state.league?.id,
-        state.season
+        state.season,
+        currentPage
       );
       const fetchStaticsPromise = fetchStatics(
         state.team?.id,
@@ -232,7 +230,7 @@ const Statics = () => {
       });
       return;
     }
-  }, [state.team?.id]);
+  }, [state.team?.id, currentPage]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -261,14 +259,16 @@ const Statics = () => {
 
     fetchData();
   }, [fetchDataPlayerCallback, state.team?.id, state.league?.id]);
-  console.log(formation);
   return (
     <>
       <Head>
         <title>Statics</title>
       </Head>
-      <div className="lg:w-full lg:h-full w-auto lg:pt-40 pl-20 focus:outline-none from-pink-100 to-purple-100 to-slate-950">
-        <div className="grid grid-cols-4 gap-4 flex-col ">
+      <div
+        className="lg:w-full lg:h-full w-auto lg:pt-24 pl-12 focus:outline-none from-pink-100 to-purple-100 to-slate-950"
+        id="statics"
+      >
+        <div className="grid lg:grid-cols-4 gap-4 flex-col lg:pt-0 pt-32 items-start justify-start">
           <div className=" p-4 w-72">
             <Select
               value={state.country}
@@ -365,7 +365,6 @@ const Statics = () => {
                 const selectedTeam = team.find(
                   (team) => team?.name === selectedTeamName
                 );
-                console.log("SELECTED TEAM", selectedTeam);
                 if (selectedTeam) {
                   dispatch({
                     type: AppActions.setTeam,
@@ -391,13 +390,21 @@ const Statics = () => {
             </Select>
           </div>
         </div>
-        <div className="grid grid-cols-3 flex-col pt-8 w-full h-screen pr-30">
+        <div className="grid lg:grid-cols-3 flex-col pt-4 w-full h-screen pr-30">
           <div className={` w-72 `}>
-            <h1 className="py-4 text-center text-white text-lg font-semibold">
-              Info - Jogadores
-            </h1>
-            {arrayPlayers && arrayPlayers.length > 0 && (
-              <Card className="w-96 max-h-96 overflow-y-auto h-96">
+          {arrayPlayers && arrayPlayers.length > 0 ? ( 
+            <>
+            <h1 className="text-center text-white text-lg font-semibold">
+            Info - Jogadores
+          </h1>
+          <Pagination active={currentPage} setActive={setCurrentPage} />
+          </>
+          ) : (
+            <h1>NO DATA</h1>
+          )}
+            
+            {arrayPlayers && arrayPlayers.length > 0 ? (
+              <Card className="lg:w-96 max-h-96 overflow-y-auto h-96">
                 <List>
                   {arrayPlayers.map((p) => (
                     <>
@@ -426,16 +433,17 @@ const Statics = () => {
                   ))}
                 </List>
               </Card>
+            ): (
+              <h1>NO DATA</h1>
             )}
-           
           </div>
           <div className={` w-72`}>
             <h1 className="py-4 text-center text-white text-lg font-semibold pl-10">
               Formações mais usadadas
             </h1>
-            {formation[0]?.formation !== undefined && (
+            {formation[0]?.formation !== undefined ? (
               <>
-                <Card className="w-96 h-96">
+                <Card className="lg:w-96 max-h-96 overflow-y-auto h-96 mt-[13px]">
                   <List>
                     {formation.map((f) => (
                       <>
@@ -455,17 +463,22 @@ const Statics = () => {
                   </List>
                 </Card>
               </>
+            ): (
+              <h1>NO DATA</h1>
             )}
           </div>
           <div className={`w-72`}>
             <h1 className="py-4 text-center text-white text-lg font-semibold">
               Resultados
             </h1>
-            {tableObjs[0]?.games && <Table data={tableObjs} />}
+            
+            {tableObjs[0]?.games ?  <Table data={tableObjs}/> : 'NO DATA' }
           </div>
         </div>
+        <h1 id="graphs" className="text-center text-6xl text-white pt-20">
+          Gráficos
+        </h1>
         <div className="flex justify-center items-center gap-10 w-full h-screen">
-          
           <ChartComponent data={graph} />
         </div>
       </div>

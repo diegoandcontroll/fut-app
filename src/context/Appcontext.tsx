@@ -1,4 +1,4 @@
-import { LeagueObj, ObjTables, ObjTeam } from "@/types";
+import { LeagueObj, ObjTeam } from "@/types";
 import { ReactNode, createContext, useContext, useReducer } from "react";
 type State = {
   apiKey: string;
@@ -9,7 +9,6 @@ type State = {
   imgCountry: string;
   league: LeagueObj;
   team: ObjTeam;
-  tableObjs: ObjTables;
   loading: boolean;
 };
 type Action = {
@@ -36,12 +35,6 @@ const initialData: State = {
   loading: false,
   league: {},
   team: {},
-  tableObjs: {
-    tGames: 0,
-    tDraws: 0,
-    tLoses: 0,
-    tVictories: 0,
-  },
 };
 const AppContext = createContext<ContextType | undefined>(undefined);
 
@@ -54,7 +47,6 @@ export enum AppActions {
   setTeam,
   setLeague,
   setIsValidApiKey,
-  setTableObjs,
   setLoading,
 }
 const appReducer = (state: State, action: Action) => {
@@ -75,9 +67,7 @@ const appReducer = (state: State, action: Action) => {
       return { ...state, league: action.payload };
     case AppActions.setIsValidApiKey:
       return { ...state, isValidApiKey: action.payload };
-    case AppActions.setTableObjs:
-      return { ...state, tableObjs: action.payload };
-    case AppActions.setTableObjs:
+    case AppActions.setLoading:
       return { ...state, loading: action.payload };
     default:
       return state;

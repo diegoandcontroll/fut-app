@@ -1,19 +1,1921 @@
 import { Player } from "@/types";
 
 export function extractPlayerData(response: any[]): Player[] {
-  const playerData: Player[] = [];
+	const playerData: Player[] = [];
 
-  for (const item of response) {
-    if (item.hasOwnProperty("player")) {
-      const player = item.player;
-      playerData.push(player);
-    }
-  }
+	for (const item of response) {
+		if (item.hasOwnProperty("player")) {
+			const player = item.player;
+			playerData.push(player);
+		}
+	}
 
-  return playerData;
+	return playerData;
 }
+const playerResponse = [
+	{
+		"player": {
+			"id": 34025,
+			"name": "Willian Henrique Antunes",
+			"firstname": "Willian Henrique",
+			"lastname": "Antunes",
+			"age": 35,
+			"birth": {
+				"date": "1987-02-11",
+				"place": "Mogi Mirim",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "190 cm",
+			"weight": "81 kg",
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/34025.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-3.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 13,
+					"lineups": 13,
+					"minutes": 1139,
+					"number": null,
+					"position": "Defender",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 0,
+					"out": 1,
+					"bench": 1
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 2,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 2,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 159793,
+			"name": "Leonardo Bruno Coca",
+			"firstname": "Leonardo Bruno",
+			"lastname": "Coca",
+			"age": 26,
+			"birth": {
+				"date": "1996-03-07",
+				"place": "São Carlos",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "186 cm",
+			"weight": "82 kg",
+			"injured": false,
+			"photo": "https:\/\/media-1.api-sports.io\/football\/players\/159793.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-3.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 0,
+					"lineups": 0,
+					"minutes": 0,
+					"number": null,
+					"position": "Midfielder",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 0,
+					"out": 0,
+					"bench": 2
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 317752,
+			"name": "Felipe Brunetto Barboni",
+			"firstname": "Felipe",
+			"lastname": "Brunetto Barboni",
+			"age": 20,
+			"birth": {
+				"date": "2002-01-15",
+				"place": null,
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": null,
+			"weight": null,
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/317752.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-3.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 0,
+					"lineups": 0,
+					"minutes": 0,
+					"number": null,
+					"position": "Goalkeeper",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 0,
+					"out": 0,
+					"bench": 1
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 322919,
+			"name": "Miguel Augusto Oliveira Mota",
+			"firstname": "Miguel Augusto",
+			"lastname": "Oliveira Mota",
+			"age": 20,
+			"birth": {
+				"date": "2002-04-03",
+				"place": null,
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": null,
+			"weight": null,
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/322919.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-1.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 2,
+					"lineups": 1,
+					"minutes": 95,
+					"number": null,
+					"position": "Midfielder",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 1,
+					"out": 1,
+					"bench": 6
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 1,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 195446,
+			"name": "Michael Jesus Evangelista",
+			"firstname": "Michael",
+			"lastname": "Jesus Evangelista",
+			"age": 23,
+			"birth": {
+				"date": "1999-08-15",
+				"place": null,
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": null,
+			"weight": null,
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/195446.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-3.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 0,
+					"lineups": 0,
+					"minutes": 0,
+					"number": null,
+					"position": "Attacker",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 0,
+					"out": 0,
+					"bench": 1
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 63987,
+			"name": "Julinho",
+			"firstname": "Júlio César",
+			"lastname": "Machado Colares",
+			"age": 36,
+			"birth": {
+				"date": "1987-03-21",
+				"place": "Bagé",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "185 cm",
+			"weight": "75 kg",
+			"injured": false,
+			"photo": "https:\/\/media-2.api-sports.io\/football\/players\/63987.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-2.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 1,
+					"lineups": 0,
+					"minutes": 1,
+					"number": null,
+					"position": "Defender",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 1,
+					"out": 0,
+					"bench": 4
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 77730,
+			"name": "Jefferson Feijão",
+			"firstname": "Jefferson",
+			"lastname": "da Silva Luciano",
+			"age": 37,
+			"birth": {
+				"date": "1986-12-16",
+				"place": "Brasília",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "168 cm",
+			"weight": "64 kg",
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/77730.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-3.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 13,
+					"lineups": 13,
+					"minutes": 958,
+					"number": null,
+					"position": "Defender",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 0,
+					"out": 9,
+					"bench": 1
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 6,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 77762,
+			"name": "Misael",
+			"firstname": "Misael",
+			"lastname": "Silva Jansen",
+			"age": 36,
+			"birth": {
+				"date": "1987-07-04",
+				"place": "São Luís",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "171 cm",
+			"weight": "71 kg",
+			"injured": false,
+			"photo": "https:\/\/media-1.api-sports.io\/football\/players\/77762.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-1.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 3,
+					"lineups": 0,
+					"minutes": 78,
+					"number": null,
+					"position": "Attacker",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 3,
+					"out": 0,
+					"bench": 4
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 80665,
+			"name": "Matheus Serafim",
+			"firstname": "Matheus",
+			"lastname": "Bonadiman Serafim",
+			"age": 25,
+			"birth": {
+				"date": "1998-05-14",
+				"place": "Cachoeiro de Itapemirim",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "178 cm",
+			"weight": null,
+			"injured": false,
+			"photo": "https:\/\/media-1.api-sports.io\/football\/players\/80665.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-1.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 5,
+					"lineups": 0,
+					"minutes": 98,
+					"number": null,
+					"position": "Attacker",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 5,
+					"out": 0,
+					"bench": 14
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 27240,
+			"name": "Queven",
+			"firstname": "Queven",
+			"lastname": "da Silva Inácio",
+			"age": 25,
+			"birth": {
+				"date": "1998-11-21",
+				"place": "Palmeira d'Oeste (SP)",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "176 cm",
+			"weight": "73 kg",
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/27240.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-3.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 1,
+					"lineups": 0,
+					"minutes": 1,
+					"number": null,
+					"position": "Midfielder",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 1,
+					"out": 0,
+					"bench": 5
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 13273,
+			"name": "W. Jordán",
+			"firstname": "Wilmar",
+			"lastname": "Jordán Gil",
+			"age": 33,
+			"birth": {
+				"date": "1990-10-17",
+				"place": "Itagüí",
+				"country": "Colombia"
+			},
+			"nationality": "Colombia",
+			"height": "180 cm",
+			"weight": "81 kg",
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/13273.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-2.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 2,
+					"lineups": 1,
+					"minutes": 71,
+					"number": null,
+					"position": "Attacker",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 1,
+					"out": 1,
+					"bench": 2
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 9836,
+			"name": "Diego Jussani",
+			"firstname": "Diego",
+			"lastname": "Jussani",
+			"age": 36,
+			"birth": {
+				"date": "1987-09-07",
+				"place": "Americana",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "189 cm",
+			"weight": "85 kg",
+			"injured": false,
+			"photo": "https:\/\/media-1.api-sports.io\/football\/players\/9836.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-3.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 5,
+					"lineups": 2,
+					"minutes": 231,
+					"number": null,
+					"position": "Defender",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 3,
+					"out": 0,
+					"bench": 7
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 1
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 77966,
+			"name": "Thomazella",
+			"firstname": "Carlos Eduardo",
+			"lastname": "Lecciolle Thomazella",
+			"age": 33,
+			"birth": {
+				"date": "1990-08-18",
+				"place": "Botucatu",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": null,
+			"weight": null,
+			"injured": false,
+			"photo": "https:\/\/media-1.api-sports.io\/football\/players\/77966.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-3.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 0,
+					"lineups": 0,
+					"minutes": 0,
+					"number": null,
+					"position": "Goalkeeper",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 0,
+					"out": 0,
+					"bench": 7
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 195443,
+			"name": "Patrick",
+			"firstname": "Patrick Marcos",
+			"lastname": "de Sousa Freitas",
+			"age": 24,
+			"birth": {
+				"date": "1999-04-09",
+				"place": null,
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": null,
+			"weight": null,
+			"injured": false,
+			"photo": "https:\/\/media-1.api-sports.io\/football\/players\/195443.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-2.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 13,
+					"lineups": 13,
+					"minutes": 1170,
+					"number": null,
+					"position": "Defender",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 0,
+					"out": 0,
+					"bench": 0
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 2,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 4,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 195413,
+			"name": "Tauã Belo",
+			"firstname": "Tauã",
+			"lastname": "Antunes",
+			"age": 28,
+			"birth": {
+				"date": "1995-02-24",
+				"place": "Caraguatatuba",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": null,
+			"weight": null,
+			"injured": false,
+			"photo": "https:\/\/media-2.api-sports.io\/football\/players\/195413.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-2.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 10,
+					"lineups": 2,
+					"minutes": 383,
+					"number": null,
+					"position": "Midfielder",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 8,
+					"out": 0,
+					"bench": 12
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 1,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 316950,
+			"name": "Hudson",
+			"firstname": "Hudson Alexandre",
+			"lastname": "Batista da Silva",
+			"age": 22,
+			"birth": {
+				"date": "2001-01-14",
+				"place": null,
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "181 cm",
+			"weight": null,
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/316950.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-1.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 1,
+					"lineups": 0,
+					"minutes": 9,
+					"number": null,
+					"position": "Midfielder",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 1,
+					"out": 0,
+					"bench": 1
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 159967,
+			"name": "Diogo Marzagão",
+			"firstname": "Diogo Lúcio",
+			"lastname": "Tavares Pires",
+			"age": 36,
+			"birth": {
+				"date": "1987-06-04",
+				"place": "São Paulo",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "178 cm",
+			"weight": "71 kg",
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/159967.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-2.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 14,
+					"lineups": 14,
+					"minutes": 1146,
+					"number": null,
+					"position": "Midfielder",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 0,
+					"out": 5,
+					"bench": 0
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 3,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 106519,
+			"name": "Danilo",
+			"firstname": "Danilo",
+			"lastname": "Santana Pereira",
+			"age": 27,
+			"birth": {
+				"date": "1996-02-14",
+				"place": null,
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": null,
+			"weight": null,
+			"injured": false,
+			"photo": "https:\/\/media-2.api-sports.io\/football\/players\/106519.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-2.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-3.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 12,
+					"lineups": 9,
+					"minutes": 731,
+					"number": null,
+					"position": "Attacker",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 3,
+					"out": 6,
+					"bench": 5
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 4,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 3,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 115909,
+			"name": "Anderson Lessa",
+			"firstname": "José Anderson",
+			"lastname": "de Oliveira Lessa",
+			"age": 34,
+			"birth": {
+				"date": "1989-07-26",
+				"place": "Recife",
+				"country": "Brazil"
+			},
+			"nationality": "Brazil",
+			"height": "174 cm",
+			"weight": "72 kg",
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/115909.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-3.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 3,
+					"lineups": 0,
+					"minutes": 67,
+					"number": null,
+					"position": "Attacker",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 3,
+					"out": 0,
+					"bench": 8
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	},
+	{
+		"player": {
+			"id": 13475,
+			"name": "B. Lucumí",
+			"firstname": "Brayan Damián",
+			"lastname": "Lucumí Lucumí",
+			"age": 29,
+			"birth": {
+				"date": "1994-02-12",
+				"place": "Villa Rica",
+				"country": "Colombia"
+			},
+			"nationality": "Colombia",
+			"height": "170 cm",
+			"weight": "68 kg",
+			"injured": false,
+			"photo": "https:\/\/media-3.api-sports.io\/football\/players\/13475.png"
+		},
+		"statistics": [
+			{
+				"team": {
+					"id": 1214,
+					"name": "Portuguesa",
+					"logo": "https:\/\/media-1.api-sports.io\/football\/teams\/1214.png"
+				},
+				"league": {
+					"id": 76,
+					"name": "Serie D",
+					"country": "Brazil",
+					"logo": "https:\/\/media-3.api-sports.io\/football\/leagues\/76.png",
+					"flag": "https:\/\/media-2.api-sports.io\/flags\/br.svg",
+					"season": 2021
+				},
+				"games": {
+					"appearences": 2,
+					"lineups": 0,
+					"minutes": 26,
+					"number": null,
+					"position": "Attacker",
+					"rating": null,
+					"captain": false
+				},
+				"substitutes": {
+					"in": 2,
+					"out": 0,
+					"bench": 6
+				},
+				"shots": {
+					"total": null,
+					"on": null
+				},
+				"goals": {
+					"total": 0,
+					"conceded": null,
+					"assists": null,
+					"saves": null
+				},
+				"passes": {
+					"total": null,
+					"key": null,
+					"accuracy": null
+				},
+				"tackles": {
+					"total": null,
+					"blocks": null,
+					"interceptions": null
+				},
+				"duels": {
+					"total": null,
+					"won": null
+				},
+				"dribbles": {
+					"attempts": null,
+					"success": null,
+					"past": null
+				},
+				"fouls": {
+					"drawn": null,
+					"committed": null
+				},
+				"cards": {
+					"yellow": 0,
+					"yellowred": 0,
+					"red": 0
+				},
+				"penalty": {
+					"won": null,
+					"commited": null,
+					"scored": null,
+					"missed": null,
+					"saved": null
+				}
+			}
+		]
+	}
+]
 
-
+export const playerDataMocked = extractPlayerData(playerResponse);
 
 
 export const responseGraph = [

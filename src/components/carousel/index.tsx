@@ -26,7 +26,7 @@ const Carousel = () => {
           fill
           style={{ objectFit: "cover" }}
           alt={`Image ${index}`}
-          className={`absolute w-full h-full transition-opacity duration-500 mix-blend-color-burn brightness-50 ${
+          className={`absolute w-full h-screen transition-opacity duration-500 mix-blend-color-burn brightness-100 backdrop-brightness-200 ${
             index === currentImage ? 'opacity-100' : 'opacity-0'
           }`}
         />

@@ -4,7 +4,7 @@ import { Card, Typography } from "@material-tailwind/react";
 export const Table: React.FC<TableProps> = ({data}) => {
   const TABLE_HEAD = ["t.jog", "t.vit", "t.der", "t.emp"];
   return (
-    <Card className="w-96 max-h-96 overflow-y-auto h-96">
+    <Card className="lg:w-96 max-h-96 overflow-y-auto h-96 mt-[11px]">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Carousel from "@/components/carousel";
 import { AppActions, useAppContext } from "@/context/Appcontext";
-import { Button, Input } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import axios from "axios";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -78,10 +78,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="lg:w-full lg:h-screen bg-gradient-to-tl from-pink-100 to-purple-100 to-slate-950">
+      <div className="w-full h-screen bg-gradient-to-tl from-green-40000 to-pink-200 transition-colors">
         <Carousel />
       </div>
-      <div className="lg:text-center text-white font-extrabold absolute top-60 pl-20">
+      <div className="lg:text-center text-white font-extrabold absolute top-60 pl-20 pt-10">
         <div>
           <h1 className="text-6xl lg:text-8xl text-green-300 font-semibold md:inline sm:block">
             Striker
@@ -90,29 +90,22 @@ export default function Home() {
             Metrics
           </span>
         </div>
-        <h3 className="pt-8 text-6xl lg:mr-20 pb-10">Bem Vindo!</h3>
+        <h3 className="pt-8 text-lg lg:text-6xl lg:mr-20 pb-10">Bem Vindo!</h3>
 
-        <form onSubmit={handleSubmit}>
-          <label className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
-            Search
-          </label>
-          <div className="relative">
-            {/* <div className="absolute inset-y-0 left-40 flex items-center pl-3 cursor-pointer">
-        <FaPaste width={40} height={40} fill="black"/>
-        </div> */}
-            <Input
-              value={displayString.value}
-              onChange={handleChange}
-              type="password"
-              size="lg"
-              label="ApiKey"
-              className="focus:outline-none text-white"
-            />
-            
-          </div>
+        <form
+          onSubmit={handleSubmit}
+          className="lg:mr-0 sm:mr-10rem flex flex-col items-start justify-center gap-4 lg:max-w-[350px] sm:max-w-[180px]"
+        >
+          <input
+            value={displayString.value}
+            onChange={handleChange}
+            type="password"
+            className="h-10 lg:w-full bg-transparent focus:outline-none text-white focus:ring-4 focus:ring-blue-300 rounded-lg px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 text-sm border"
+            placeholder="APIKEY"
+          />
           <Button
             type="submit"
-            className="h-[45px] w-32 text-white relative left-[16rem] top-[-45px] ml-16 bg-stone-200 focus:ring-4 focus:ring-blue-300 rounded-lg px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 text-sm border"
+            className="h-10 lg:w-[250px] sm:w-full text-white bg-stone-200 focus:ring-4 focus:ring-blue-300 rounded-lg px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 text-sm border"
           >
             Login
           </Button>
