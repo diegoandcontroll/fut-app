@@ -1,13 +1,19 @@
+import { useAppContext } from "@/context/Appcontext";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
+import SmoothScrollAnchor from "../smoothAnchor";
 import { MenuItems } from "./menuItems";
 
+
 export const Navbar = () => {
+  const router = useRouter();
+  const currentPath = router.pathname;
   const [active, setActive] = useState<{ isActive: boolean }>({
     isActive: false,
   });
-
+  const { state } = useAppContext();
   const handleShowMenu = () => {
     setActive((prevActive) => ({
       ...prevActive,
@@ -34,15 +40,33 @@ export const Navbar = () => {
         </div>
 
         <ul className="hidden md:flex gap-8 p-6">
-          <li className="cursor-pointer hover:border-b-2">
+          <li className="cursor-pointer ">
             <Link href="/">Home</Link>
           </li>
-          <li className="cursor-pointer hover:border-b-2 ">
-            <Link href="/about">About</Link>
-          </li>
-          <li className="cursor-pointer hover:border-b-2">
-            <Link href="/statics">Statics</Link>
-          </li>
+          {!state.apiKey && !state.isLogged ? (
+            ""
+          ) : (
+            <>
+              {currentPath !== "/statics" ? (
+                <li className="cursor-pointer">
+                  <Link href="/statics">Statics</Link>
+                </li>
+              ) : (
+                <li className="cursor-pointer">
+                  <SmoothScrollAnchor targetId="statics">
+                    Statics
+                  </SmoothScrollAnchor>
+                </li>
+              )}
+              {currentPath === "/statics" && (
+                <li className="cursor-pointer">
+                  <SmoothScrollAnchor targetId="graphs">
+                    Graphs
+                  </SmoothScrollAnchor>
+                </li>
+              )}
+            </>
+          )}
         </ul>
 
         <MenuItems showMenu={handleShowMenu} active={active.isActive} />

@@ -8,4 +8,5 @@ html,body {
   background-attachment: fixed;
   background-size: cover;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
