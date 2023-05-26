@@ -28,7 +28,7 @@ type AppProviderProps = {
 const initialData: State = {
   apiKey: "",
   isValidApiKey: false,
-  isLogged: true,
+  isLogged: false,
   country: "",
   season: "",
   imgCountry: "",

@@ -27,10 +27,6 @@ export const Navbar = () => {
           Striker <span className="block">[Metrics]</span>
         </h1>
       </div>
-      {/* <div className={`absolute left-28 pb-12 max-h-10 shadow-2xl`}>
-      <img src={`/icon.png`} width='70' height='70' />
-    </div> */}
-
       <nav>
         <div className="absolute right-6 md:hidden top-6 scale-150">
           <FiMenu

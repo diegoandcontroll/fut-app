@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //a81f144f126b579ddc45b6e8c194a3cb
 import ChartComponent from "@/components/chart";
+import Pagination from "@/components/pagination";
 import { Table } from "@/components/table";
 import { AppActions, useAppContext } from "@/context/Appcontext";
 import {
@@ -14,8 +15,10 @@ import {
   TeamData,
   TeamData2,
 } from "@/types";
-import { dataTable, formations, getLeagueData, options } from "@/utils";
-import { extractPlayerData, playerDataMocked, responseGraph } from "@/utils/teamsItems";
+import { getLeagueData, options } from "@/utils";
+import {
+  extractPlayerData
+} from "@/utils/teamsItems";
 
 import {
   Avatar,
@@ -51,6 +54,7 @@ const Statics = () => {
   const [formation, setFormation] = useState<Formation[]>([]);
   const [graph, setGraph] = useState<TeamData | undefined>();
   const [tableObjs, setTableObjs] = useState<TablePropsObj[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const headers = {
     "x-rapidapi-host": "v3.football.api-sports.io",
     "x-apisports-key": state.apiKey,
@@ -88,7 +92,8 @@ const Statics = () => {
   const fetchPlayers = async (
     teamId: number | undefined,
     leagueId: number | undefined,
-    season: string
+    season: string,
+    page: number
   ) => {
     try {
       if (!leagueId && season !== "") {
@@ -97,7 +102,7 @@ const Statics = () => {
         throw new Error("SEASON OR LEAGUE_ID INVALID");
       }
     } catch (e) {
-      const playerUrl = `https://v3.football.api-sports.io/players?team=${teamId}&season=${season}&league=${leagueId}&page=1`;
+      const playerUrl = `https://v3.football.api-sports.io/players?team=${teamId}&season=${season}&league=${leagueId}&page=${page}`;
       const playerResponse = await axios.get(playerUrl, { headers });
       const playerData = extractPlayerData(
         playerResponse.data?.response
@@ -116,8 +121,8 @@ const Statics = () => {
     return [fixtures, lineups, staticsResponse.data?.response];
   };
   useEffect(() => {
-    if (!state.isLogged && state.isValidApiKey) router.push("/");
-  }, [state.isLogged,state.isValidApiKey]);
+    if (!state.isLogged && !state.isValidApiKey) router.push("/");
+  }, [state.isLogged, state.isValidApiKey]);
   const fetchDataLeagueCallback = useCallback(async () => {
     if (state.country && state.season) {
       setFormation([]);
@@ -138,10 +143,7 @@ const Statics = () => {
         type: AppActions.setLeague,
         payload: {},
       });
-      const data = (await fetchLeagues(
-        state.country,
-        state.season
-      ));
+      const data = await fetchLeagues(state.country, state.season);
       setArrayLeague(getLeagueData(data));
       dispatch({
         type: AppActions.setLoading,
@@ -188,7 +190,8 @@ const Statics = () => {
       const fetchPlayersPromise = fetchPlayers(
         state.team?.id,
         state.league?.id,
-        state.season
+        state.season,
+        currentPage
       );
       const fetchStaticsPromise = fetchStatics(
         state.team?.id,
@@ -227,7 +230,7 @@ const Statics = () => {
       });
       return;
     }
-  }, [state.team?.id]);
+  }, [state.team?.id, currentPage]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -261,7 +264,10 @@ const Statics = () => {
       <Head>
         <title>Statics</title>
       </Head>
-      <div className="lg:w-full lg:h-full w-auto lg:pt-24 pl-12 focus:outline-none from-pink-100 to-purple-100 to-slate-950" id="statics">
+      <div
+        className="lg:w-full lg:h-full w-auto lg:pt-24 pl-12 focus:outline-none from-pink-100 to-purple-100 to-slate-950"
+        id="statics"
+      >
         <div className="grid lg:grid-cols-4 gap-4 flex-col lg:pt-0 pt-32 items-start justify-start">
           <div className=" p-4 w-72">
             <Select
@@ -386,13 +392,21 @@ const Statics = () => {
         </div>
         <div className="grid lg:grid-cols-3 flex-col pt-4 w-full h-screen pr-30">
           <div className={` w-72 `}>
-            <h1 className="py-4 text-center text-white text-lg font-semibold">
-              Info - Jogadores
-            </h1>
-            {/* {arrayPlayers && arrayPlayers.length > 0 && ( */}
+          {arrayPlayers && arrayPlayers.length > 0 ? ( 
+            <>
+            <h1 className="text-center text-white text-lg font-semibold">
+            Info - Jogadores
+          </h1>
+          <Pagination active={currentPage} setActive={setCurrentPage} />
+          </>
+          ) : (
+            <h1>NO DATA</h1>
+          )}
+            
+            {arrayPlayers && arrayPlayers.length > 0 ? (
               <Card className="lg:w-96 max-h-96 overflow-y-auto h-96">
                 <List>
-                  {playerDataMocked.map((p) => (
+                  {arrayPlayers.map((p) => (
                     <>
                       <ListItem key={p.id}>
                         <ListItemPrefix>
@@ -419,18 +433,19 @@ const Statics = () => {
                   ))}
                 </List>
               </Card>
-            {/* )} */}
-           
+            ): (
+              <h1>NO DATA</h1>
+            )}
           </div>
           <div className={` w-72`}>
             <h1 className="py-4 text-center text-white text-lg font-semibold pl-10">
               Formações mais usadadas
             </h1>
-            {/* {formation[0]?.formation !== undefined && ( */}
+            {formation[0]?.formation !== undefined ? (
               <>
-                <Card className="lg:w-96 max-h-96 overflow-y-auto h-96">
+                <Card className="lg:w-96 max-h-96 overflow-y-auto h-96 mt-[13px]">
                   <List>
-                    {formations.map((f) => (
+                    {formation.map((f) => (
                       <>
                         <ListItem key={f?.formation}>
                           {f?.formation}
@@ -448,19 +463,23 @@ const Statics = () => {
                   </List>
                 </Card>
               </>
-            {/* )} */}
+            ): (
+              <h1>NO DATA</h1>
+            )}
           </div>
           <div className={`w-72`}>
             <h1 className="py-4 text-center text-white text-lg font-semibold">
               Resultados
             </h1>
-            <Table data={dataTable} />
-            {/* {tableObjs[0]?.games && <Table data={dataTable} />} */}
+            
+            {tableObjs[0]?.games ?  <Table data={tableObjs}/> : 'NO DATA' }
           </div>
         </div>
-        <h1 id="graphs" className="text-center text-6xl text-white pt-20">Gráficos</h1>
+        <h1 id="graphs" className="text-center text-6xl text-white pt-20">
+          Gráficos
+        </h1>
         <div className="flex justify-center items-center gap-10 w-full h-screen">
-          <ChartComponent data={responseGraph[0]} />
+          <ChartComponent data={graph} />
         </div>
       </div>
     </>
