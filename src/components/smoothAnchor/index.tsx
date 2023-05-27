@@ -1,4 +1,4 @@
-interface SmoothScrollAnchorProps {
+export interface SmoothScrollAnchorProps {
   targetId: string;
   children: React.ReactNode;
 }

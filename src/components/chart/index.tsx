@@ -63,8 +63,9 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ data }) => {
   return (
     <div className="grid lg:grid-cols-3 flex-col lg:justify-between items-center mr-8 lg:gap-28 gap-8 sm:justify-center items:center lg:mt-0 mt-[100rem]">
       {data.fixtures ? (
-        <div className="w-72">
+        <div className="w-72" data-testid="Fixtures">
           <Chart
+            
             width={"100%"}
             height={"300px"}
             chartType="Bar"
@@ -82,8 +83,9 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ data }) => {
       )}
 
       {data.goals ? (
-        <div className="w-72">
+        <div className="w-72" data-testid="Goals">
           <Chart
+            
             width={"100%"}
             height={"300px"}
             chartType="LineChart"
@@ -105,8 +107,9 @@ const ChartComponent: React.FC<ChartComponentProps> = ({ data }) => {
       )}
 
       {data.biggest ? (
-        <div className="w-72">
+        <div className="w-72" data-testid="Biggest">
         <Chart
+          
           width={"100%"}
           height={"300px"}
           chartType="Bar"
