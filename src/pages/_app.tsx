@@ -13,8 +13,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
     <AppProvider>
      <main className={`w-full h-screen bg-gradient-to-tl from-green-800 to-purple-800 to-slate-950 ${poppins.variable} font-sans`}>
-      <Navbar />
-       <Component {...pageProps} />
+      <Navbar data-testid="navbar"/>
+       <Component data-testid="child-component" {...pageProps} />
      </main>
      </AppProvider>
     </>
