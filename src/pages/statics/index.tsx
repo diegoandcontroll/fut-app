@@ -16,9 +16,7 @@ import {
   TeamData2,
 } from "@/types";
 import { getLeagueData, options } from "@/utils";
-import {
-  extractPlayerData
-} from "@/utils/teamsItems";
+import { extractPlayerData } from "@/utils/teamsItems";
 
 import {
   Avatar,
@@ -392,17 +390,17 @@ const Statics = () => {
         </div>
         <div className="grid lg:grid-cols-3 flex-col pt-4 w-full h-screen pr-30">
           <div className={` w-72 `}>
-          {arrayPlayers && arrayPlayers.length > 0 ? ( 
-            <>
-            <h1 className="text-center text-white text-lg font-semibold">
-            Info - Jogadores
-          </h1>
-          <Pagination active={currentPage} setActive={setCurrentPage} />
-          </>
-          ) : (
-            <h1>NO DATA</h1>
-          )}
-            
+            {arrayPlayers && arrayPlayers.length > 0 ? (
+              <>
+                <h1 className="text-center text-white text-lg font-semibold">
+                  Info - Jogadores
+                </h1>
+                <Pagination active={currentPage} setActive={setCurrentPage} />
+              </>
+            ) : (
+              ""
+            )}
+
             {arrayPlayers && arrayPlayers.length > 0 ? (
               <Card className="lg:w-96 max-h-96 overflow-y-auto h-96">
                 <List>
@@ -433,16 +431,16 @@ const Statics = () => {
                   ))}
                 </List>
               </Card>
-            ): (
-              <h1>NO DATA</h1>
+            ) : (
+              ""
             )}
           </div>
           <div className={` w-72`}>
-            <h1 className="py-4 text-center text-white text-lg font-semibold pl-10">
-              Formações mais usadadas
-            </h1>
             {formation[0]?.formation !== undefined ? (
               <>
+                <h1 className="py-4 text-center text-white text-lg font-semibold pl-10">
+                  Formações mais usadadas
+                </h1>
                 <Card className="lg:w-96 max-h-96 overflow-y-auto h-96 mt-[13px]">
                   <List>
                     {formation.map((f) => (
@@ -463,16 +461,21 @@ const Statics = () => {
                   </List>
                 </Card>
               </>
-            ): (
-              <h1>NO DATA</h1>
+            ) : (
+              ""
             )}
           </div>
           <div className={`w-72`}>
-            <h1 className="py-4 text-center text-white text-lg font-semibold">
-              Resultados
-            </h1>
-            
-            {tableObjs[0]?.games ?  <Table data={tableObjs}/> : 'NO DATA' }
+            {tableObjs[0]?.games ? (
+              <>
+                <h1 className="py-4 text-center text-white text-lg font-semibold">
+                  Resultados
+                </h1>
+                <Table data={tableObjs} />
+              </>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <h1 id="graphs" className="text-center text-6xl text-white pt-20">
